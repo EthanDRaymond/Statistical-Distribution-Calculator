@@ -1,7 +1,7 @@
 CC=gcc
 SRC=src
 BIN=bin
-PARAMS="-Wall"
+PARAMS=-Wall
 
 # C files
 NORM=normal

@@ -1,3 +1,7 @@
+#include <stdio.h>
+#include <string.h>
+#include "normal.h"
+
 const char* INPUT = "normal";
 
 int main(int argc, char **argv) {
