@@ -3,18 +3,17 @@ SRC=src
 BIN=bin
 PARAMS=-Wall
 
-# C files
-NORM=normal
-MAIN=main
-
-all : $(MAIN).o $(NORM).o
+all : bin/main.o bin/normal.o bin/poisson.o init
 	$(CC) $(PARAMS) $(BIN)/*.o -o out.exe
 
-$(MAIN).o : init
-	$(CC) $(PARAMS) -c $(SRC)/$(MAIN).c -o $(BIN)/$(MAIN).o
+bin/main.o : init
+	$(CC) $(PARAMS) -c src/main.c -o $(BIN)/main.o
 
-$(NORM).o : init
-	$(CC) $(PARAMS) -c $(SRC)/$(NORM).c -o $(BIN)/$(NORM).o
+bin/normal.o : init
+	$(CC) $(PARAMS) -c src/normal.c -o $(BIN)/normal.o
+	
+bin/poisson.o : init
+	$(CC) $(PARAMS) -c src/poisson.c -o $(BIN)/poisson.o
 
 init:
 	mkdir -p $(BIN)

@@ -2,21 +2,17 @@
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
-
-const char* LEFT_TAIL = "left";
-const char* RIGHT_TAIL = "right";
-const char* FLAG_MEAN = "--mean";
-const char* FLAG_STANDARD_DEVIATION = "--standard-dev";
-
-const double MIN = -10.0;
-const double MAX = 10.0;
-const int N = 25;
+#include "normal.h"
 
 double pdf(double x, double mean, double stdev) {
 	return 1.0 / ( (sqrt(2 * stdev * stdev * 3.1415926)) * exp((x-mean)*(x-mean) / (2*stdev*stdev)) );
 }
 
-double getLeftTail(double x, double mean, double stdev) {
+double getLeftTailNormal(double x, double mean, double stdev) {
+
+	const double MIN = -10.0;
+	const double MAX = 10.0;
+	const int N = 25;
 
 	if (x <= MIN) {
 		return 0.0;
@@ -37,11 +33,17 @@ double getLeftTail(double x, double mean, double stdev) {
 
 }
 
-double getRightTail(double x, double mean, double stdev) {
-	return 1.0 - getLeftTail(x, mean, stdev);
+double getRightTailNormal(double x, double mean, double stdev) {
+	return 1.0 - getLeftTailNormal(x, mean, stdev);
 }
 
 int normal(int argc, char** argv) {
+
+	const char* LEFT_TAIL = "left";
+	const char* RIGHT_TAIL = "right";
+	const char* FLAG_MEAN = "--mean";
+	const char* FLAG_STANDARD_DEVIATION = "--standard-dev";
+
 	if (argc >= 3) {
 		char* secondParameter = argv[2];
 		if (strcmp(secondParameter, LEFT_TAIL) == 0) {
@@ -61,7 +63,7 @@ int normal(int argc, char** argv) {
 						x = atoi(param);
 					}
 				}
-				printf("%f", getLeftTail(x, mean, stdev));
+				printf("%f", getLeftTailNormal(x, mean, stdev));
 			} else {
 				printf("No value given to to calculate left tail");
 			}
@@ -82,7 +84,7 @@ int normal(int argc, char** argv) {
 						x = atoi(param);
 					}
 				}
-				printf("%f", getRightTail(x, mean, stdev));
+				printf("%f", getRightTailNormal(x, mean, stdev));
 			} else {
 				printf("No value given to to calculate left tail");
 			}
