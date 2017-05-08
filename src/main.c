@@ -11,6 +11,84 @@ int factorial(unsigned int x) {
     }
 }
 
+double pmfBinomial(unsigned int k, unsigned int n, double p) {
+    return factorial(n) * pow(p, k) * pow(1-p, n-k) / (factorial(k) * factorial(n-k));
+}
+
+double getLeftTailBinomial(unsigned int x, unsigned int n, double p) {
+
+    double prob = 0.0;
+    for (int k = 0; k <= x; k++) {
+        prob += pmfBinomial(k, n, p);
+    }
+
+    return prob;
+
+}
+
+double getRightTailBinomial(unsigned int x, unsigned int n, double p) {
+    return 1.0 - getLeftTailBinomial(x, n, p);
+}
+
+int binomial(int argc, char** argv) {
+
+    const char* LEFT_TAIL = "left";
+    const char* RIGHT_TAIL = "right";
+    const char* FLAG_N = "-n";
+    const char* FLAG_X = "-x";
+    const char* FLAG_P = "-p";
+
+    if (argc >= 3) {
+        char* secondParameter = argv[2];
+        if (strcmp(secondParameter, LEFT_TAIL) == 0) {
+            if (argc >= 4) {
+                int n = 0;
+                int x = 0;
+                double p = 0;
+                for (int i = 3; i < argc; i++) {
+                    char *param = argv[i];
+                    if (strcmp(FLAG_N, param) == 0) {
+                        i++;
+                        n = atoi(argv[i]);
+                    } else if (strcmp(FLAG_X, param) == 0) {
+                        i++;
+                        x = atoi(argv[i]);
+                    } else if (strcmp(FLAG_P, param) == 0) {
+                        i++;
+                        p = atof(argv[i]);
+                    }
+                }
+                printf("%f\n", getLeftTailBinomial(x, n, p));
+            } else {
+                printf("No value given to to calculate left tail");
+            }
+        } else if (strcmp(secondParameter, RIGHT_TAIL) == 0) {
+            if (argc >= 4) {
+                int n = 0;
+                int x = 0;
+                double p = 0;
+                for (int i = 3; i < argc; i++) {
+                    char *param = argv[i];
+                    if (strcmp(FLAG_N, param) == 0) {
+                        i++;
+                        n = atoi(argv[i]);
+                    } else if (strcmp(FLAG_X, param) == 0) {
+                        i++;
+                        x = atoi(argv[i]);
+                    } else if (strcmp(FLAG_P, param) == 0) {
+                        i++;
+                        p = atof(argv[i]);
+                    }
+                }
+                printf("%f\n", getRightTailBinomial(x, n, p));
+            } else {
+                printf("No value given to to calculate left tail");
+            }
+        }
+    }
+    return 1;
+}
+
 double pmf(unsigned int k, double lambda) {
     return pow(lambda, k) * pow(M_E, -lambda) / factorial(k);
 }
@@ -173,6 +251,7 @@ int main(int argc, char **argv) {
 
     const char* NORMAL = "normal";
     const char* POISSON = "poisson";
+    const char* BINOMIAL = "binomial";
 
     if (argc >= 2) {
         char* firstInput = argv[1];
@@ -180,6 +259,8 @@ int main(int argc, char **argv) {
             normal(argc, argv);
         } else if (strcmp(firstInput, POISSON) == 0) {
             poisson(argc, argv);
+        } else if (strcmp(firstInput, BINOMIAL) == 0) {
+            binomial(argc, argv);
         }
     } else {
         printf("Not enough paramters.\n");
