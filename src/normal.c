@@ -2,6 +2,11 @@
 #include <stdio.h>
 #include <math.h>
 
+const char* LEFT_TAIL = "lefttail";
+const char* RIGHT_TAIL = "righttail";
+const char* FLAG_MEAN = "--mean";
+const char* FLAG_STANDARD_DEVIATION = "--standard-dev";
+
 const double MIN = -10.0;
 const double MAX = 10.0;
 const int N = 25;
@@ -52,33 +57,31 @@ double getRightTail(double x, double mean, double stdev) {
 
 }
 
-/**
- * Inputs:
- * [1] sample type:
- * 		0 = left tail
- * 		1 = right tail
- * [2] mean
- * [3] standard deviation
- * [4] z value
- */
-int main(int argc, char **argv) {
-
-	if (argc != 5){
-		return 1;
+int normal(int argc, char** argv) {
+	if (argc >= 3) {
+		char* secondParameter = argv[2];
+		if (strcmp(secondParameter, LEFT_TAIL) == 0) {
+			if (argc >= 4) {
+				double mean = 0.0;
+				double stdev = 1.0;
+				double x = 0.0;
+				for (int i = 3; i < argc; i++) {
+					char *param = argv[i];
+					if (strcmp(FLAG_MEAN, param) == 0) {
+						i++;
+						mean = atoi(argv[i]);
+					} else if (strcmp(FLAG_STANDARD_DEVIATION, param) == 0) {
+						i++;
+						stdev = atoi(argv[i]);
+					} else {
+						x = atoi(param);
+					}
+				}
+				printf("%f", getLeftTail(x, mean, stdev));
+			} else {
+				printf("No value given to to calculate left tail");
+			}
+		}
 	}
-
-	int type = atoi(argv[1]);
-	double mean = atof(argv[2]);
-	double stdev = atof(argv[3]);
-	double z = atof(argv[4]);
-
-	if (type == 0) {
-		printf("%f", getLeftTail(z, mean, stdev));
-	} else if (type == 1) {
-		printf("%f", getRightTail(z, mean, stdev));
-	} else {
-		return 1;
-	}
-
-	return 0;
+	return 1;
 }
