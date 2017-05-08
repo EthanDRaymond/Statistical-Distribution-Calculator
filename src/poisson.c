@@ -57,7 +57,7 @@ int poisson(int argc, char** argv) {
                         lambda = atof(argv[i]);
                     }
                 }
-                printf("%f", getLeftTailPoisson(k, lambda));
+                printf("%f\n", getLeftTailPoisson(k, lambda));
             } else {
                 printf("No value given to to calculate left tail");
             }
@@ -75,7 +75,7 @@ int poisson(int argc, char** argv) {
                         lambda = atof(argv[i]);
                     }
                 }
-                printf("%f", getRightTailPoisson(k, lambda));
+                printf("%f\n", getRightTailPoisson(k, lambda));
             } else {
                 printf("No value given to to calculate left tail");
             }

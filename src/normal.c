@@ -63,7 +63,7 @@ int normal(int argc, char** argv) {
 						x = atoi(param);
 					}
 				}
-				printf("%f", getLeftTailNormal(x, mean, stdev));
+				printf("%f\n", getLeftTailNormal(x, mean, stdev));
 			} else {
 				printf("No value given to to calculate left tail");
 			}
@@ -84,7 +84,7 @@ int normal(int argc, char** argv) {
 						x = atoi(param);
 					}
 				}
-				printf("%f", getRightTailNormal(x, mean, stdev));
+				printf("%f\n", getRightTailNormal(x, mean, stdev));
 			} else {
 				printf("No value given to to calculate left tail");
 			}
