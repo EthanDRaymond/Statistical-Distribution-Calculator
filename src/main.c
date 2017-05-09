@@ -11,6 +11,64 @@ int factorial(unsigned int x) {
     }
 }
 
+double getLeftTailExponential(double x, double theta) {
+    return 1 - pow(M_E, -x/theta);
+}
+
+double getRightTailExponential(double x, double theta) {
+    return 1.0 - getLeftTailExponential(x, theta);
+}
+
+int exponential(int argc, char** argv) {
+
+    const char* LEFT_TAIL = "left";
+    const char* RIGHT_TAIL = "right";
+    const char* FLAG_X = "-x";
+    const char* FLAG_THETA = "--theta";
+
+    if (argc >= 3) {
+        char* secondParameter = argv[2];
+        if (strcmp(secondParameter, LEFT_TAIL) == 0) {
+            if (argc >= 4) {
+                double theta = 0;
+                double x = 0;
+                for (int i = 3; i < argc; i++) {
+                    char *param = argv[i];
+                    if (strcmp(FLAG_THETA, param) == 0) {
+                        i++;
+                        theta = atof(argv[i]);
+                    } else if (strcmp(FLAG_X, param) == 0) {
+                        i++;
+                        x = atof(argv[i]);
+                    }
+                }
+                printf("%f\n", getLeftTailExponential(x, theta));
+            } else {
+                printf("No value given to to calculate left tail");
+            }
+        } else if (strcmp(secondParameter, RIGHT_TAIL) == 0) {
+            if (argc >= 4) {
+                double theta = 0;
+                double x = 0;
+                for (int i = 3; i < argc; i++) {
+                    char *param = argv[i];
+                    if (strcmp(FLAG_THETA, param) == 0) {
+                        i++;
+                        theta = atof(argv[i]);
+                    } else if (strcmp(FLAG_X, param) == 0) {
+                        i++;
+                        x = atof(argv[i]);
+                    }
+                }
+                printf("%f\n", getRightTailExponential(x, theta));
+            } else {
+                printf("No value given to to calculate left tail");
+            }
+        }
+    }
+    return 1;
+}
+
 double pmfBinomial(unsigned int k, unsigned int n, double p) {
     return factorial(n) * pow(p, k) * pow(1-p, n-k) / (factorial(k) * factorial(n-k));
 }
@@ -252,6 +310,7 @@ int main(int argc, char **argv) {
     const char* NORMAL = "normal";
     const char* POISSON = "poisson";
     const char* BINOMIAL = "binomial";
+    const char* EXPONENTIAL = "exponential";
 
     if (argc >= 2) {
         char* firstInput = argv[1];
@@ -261,6 +320,8 @@ int main(int argc, char **argv) {
             poisson(argc, argv);
         } else if (strcmp(firstInput, BINOMIAL) == 0) {
             binomial(argc, argv);
+        } else if (strcmp(firstInput, EXPONENTIAL) == 0) {
+            exponential(argc, argv);
         }
     } else {
         printf("Not enough paramters.\n");
