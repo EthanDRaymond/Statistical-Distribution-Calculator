@@ -4,7 +4,7 @@ BIN=bin
 PARAMS=-Wall
 
 all : bin/main.o init
-	$(CC) $(PARAMS) $(BIN)/*.o -o out
+	$(CC) $(PARAMS) $(BIN)/*.o -o stat-calc
 
 bin/main.o : init
 	$(CC) $(PARAMS) -c src/main.c -o $(BIN)/main.o
@@ -16,4 +16,4 @@ clean:
 	rm -rf $(BIN)
 
 install :
-	mv out /usr/bin/statcalc
+	mv stat-calc /usr/bin/statcalc
